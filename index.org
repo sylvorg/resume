@@ -1,1 +1,1 @@
-* Résumé
+#+include: ./README.org

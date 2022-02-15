@@ -1,0 +1,165 @@
+#+title: Résumé
+
+* General Information
+
+| ~Name:~           | Jeet Ray                                |
+| ~E-mail Address:~ | jeet.ray@syvl.org                       |
+| ~Home Address:~   | Whitby, Ontario                         |
+| ~Phone Number:~   | +1 (647) 785-0956                       |
+
+* Qualifications
+
+- Excellent Interpersonal Skills
+- Well Organized
+- Punctual
+- 96.5 hours of volunteer work (unrelated to computer science)
+- Specialize in automation
+    - Python
+    - [[https://www.pypy.org/][PyPy]]
+    - [[https://docs.hylang.org/en/alpha/][Hylang]]
+- Specialize in immutable infrastructure:
+    - [[https://nixos.org/][Nix]]
+    - [[https://nixos.org/][NixOS]]
+- Familiar with version control systems:
+    - [[https://git-scm.com/][Git]]
+- Familiar with containerization software:
+    - [[https://www.docker.com/][Docker]]
+    - [[https://podman.io/][Podman]]
+- Familiar with backup and sync software:
+    - [[https://www.borgbackup.org/][Borg]]
+    - [[https://syncthing.net/][Syncthing]]
+- Familiar with [[https://en.wikipedia.org/wiki/Copy-on-write][copy-on-write filesystems]]:
+    - [[https://openzfs.org/wiki/Main_Page][ZFS]]
+- Familiar with network protocols:
+    - SSH
+- Familiar with basic and specialized command-line utilities:
+    - rsync
+    - [[https://github.com/chmln/sd][sd]]
+- Familiar with documentation formats:
+    - [[https://orgmode.org/][org-mode]]
+      
+      ~Note:~ I'm actually writing this résumé in ~org-mode~ right now!
+
+* Projects
+
+- Python
+    - [[https://github.com/syvlorg/bakery][Bakery]]
+
+        Inspired by [[https://github.com/amoffat][Andrew Moffat's]] [[https://amoffat.github.io/sh/][sh]] module; I was so enamoured by the idea of ~baking~ an object
+        that I created a module based entirely around that concept. Soon, however, it grew into one of my best projects yet. Here's just a small taste of what the
+        ~bakery~ can do:
+
+        The following code block will, in order:
+        1. Import ~git~, ~ls~, and ~tail~ from the command line
+        2. Set a temporary path to clone a test repository to
+        3. Set all imported utilities to print their output to the console
+        4. Clone the test repository to the temporary path
+        5. Display the commit log for the test repository
+        6. Set the output of ~ls~ to be piped to the input of ~tail~
+        7. Display the last 10 items in the test repository
+
+        #+begin_src py
+        from bakery import git, ls, tail
+        cookies = "/tmp/bakery/cookies"
+        git.bake_all_(_dazzle = True)
+        git.clone("https://github.com/syvlorg/cookies", cookies, _ignore_stderr = True)
+        git(C = cookies).log()
+        tails = ls([], l = True, a = True, cookies) | tail
+        tails()
+        #+end_src
+
+    - [[https://github.com/syvlorg/oreo][Oreo]]
+
+        This is a module with a whole host of potentially useful functions, many of which enable the core aspects of my ~bakery~ project above;
+        here are a few of my favorites:
+
+        - ~eclair:~ Create a progress bar around any iterable,
+          powered by [[https://github.com/Textualize/rich][rich]] (or at least my fork [[https://github.com/syvlorg/rich][here]]):
+
+            #+begin_src py
+            from oreo import eclair
+            for i in eclair(range(100), "Index goes from 0 - 99!", "purple"): pass
+            #+end_src
+
+        - ~recursive-unmangle:~ For users of [[https://docs.hylang.org/en/alpha/][hy]],
+          a lisp dialect of python, developers can use this to recursively unmangle ~hy~ names;
+          especially useful when printing [[https://github.com/mewwts/addict][addict]] dictionaries:
+
+            #+begin_src hy
+            (import addict [Dict])
+            (import oreo [recursive-unmangle])
+
+            (setv test (Dict {})
+                  test.t/a 1
+                  test.t/b.t/c 3)
+
+            (print "Without `recursive-unmangle':")
+            (print test)
+            ;; => {'hyx_tXsolidusXa': 1, 'hyx_tXsolidusXb': {'hyx_tXsolidusXc': 3}}
+
+            (print "With `recursive-unmangle':")
+            (print (recursive-unmangle test))
+            ;; => {'t/a': 1, 't/b': {'t/c': 3}}
+            #+end_src
+
+            ~Note:~ I have implemented this in my fork of [[https://github.com/Textualize/rich][rich]]
+            over [[https://github.com/syvlorg/rich][here]],
+            where it's [[https://rich.readthedocs.io/en/stable/reference/init.html#rich.inspect][inspect]] submodule will use this when [[https://docs.hylang.org/en/alpha/][hy]] is installed,
+            and inspect's Hy keyword is passed a truthy value.
+
+        - ~is_either / either?:~ Check if any of the types of the values passed to this function are the same, or subclassed,
+          such as an [[https://docs.python.org/3/library/collections.html#collections.OrderedDict][OrderedDict]],
+          an [[https://github.com/mewwts/addict][addict]], and a ~dict~:
+
+            #+begin_src py
+            from addict import Dict
+            from collections import OrderedDict
+            from oreo import is_either
+
+            print(is_either({}, dict))
+            # => True
+
+            print(is_either({}, Dict))
+            # => True
+
+            print(is_either({}, OrderedDict))
+            # => True
+
+            print(is_either(OrderedDict, Dict))
+            # => True
+
+            print(is_either(OrderedDict, dict))
+            # => True
+
+            print(is_either(Dict, dict))
+            # => True
+
+            print(is_either(str, dict))
+            # => False
+
+            print(is_either("Dict", Dict))
+            # => False
+
+            print(is_either("Dict", "dict"))
+            # => True
+            #+end_src
+
+        - ~tea:~ A subclass of [[https://docs.python.org/3/library/collections.html#collections.OrderedDict][OrderedDict]], with a few extra features:
+
+            #+begin_src py
+            from oreo import tea
+            gensing = tea("Hello,", name = "User")
+            gensing.glue("!")
+            gensing.append("How")
+            gensing.extend("are", "you")
+            gensing.glue(("?", "I", "feel", "great!"))
+            print(gensing())
+            # => Hello, User! How are you? I feel great!
+            #+end_src
+
+* References
+** Neena Gupta
+
+| ~Occupation:~     | P. A. , Partner, Gowling WLG's Waterloo Region and Toronto offices |
+| ~E-mail Address:~ | neena.gupta@gowlingwlg.com                                         |
+| ~Phone Number:~   | +1 (519) 577-5910                                                  |
