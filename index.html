@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-02-18 Fri 19:49 -->
+<!-- 2022-02-22 Tue 23:19 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Résumé</title>
@@ -54,21 +54,21 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgbd5bc5a">General Information</a></li>
-<li><a href="#org8f888e1">Qualifications</a></li>
-<li><a href="#orgcc0b0f5">Projects</a></li>
-<li><a href="#org6bf30a5">References</a>
+<li><a href="#org9cccfa5">General Information</a></li>
+<li><a href="#org1139cac">Qualifications</a></li>
+<li><a href="#org898abf7">Projects</a></li>
+<li><a href="#org02ba645">References</a>
 <ul>
-<li><a href="#orge457379">Neena Gupta</a></li>
+<li><a href="#org7fda12b">Neena Gupta</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgbd5bc5a" class="outline-2">
-<h2 id="orgbd5bc5a">General Information</h2>
-<div class="outline-text-2" id="text-orgbd5bc5a">
+<div id="outline-container-org9cccfa5" class="outline-2">
+<h2 id="org9cccfa5">General Information</h2>
+<div class="outline-text-2" id="text-org9cccfa5">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -102,9 +102,9 @@
 </div>
 </div>
 
-<div id="outline-container-org8f888e1" class="outline-2">
-<h2 id="org8f888e1">Qualifications</h2>
-<div class="outline-text-2" id="text-org8f888e1">
+<div id="outline-container-org1139cac" class="outline-2">
+<h2 id="org1139cac">Qualifications</h2>
+<div class="outline-text-2" id="text-org1139cac">
 <ul class="org-ul">
 <li>Excellent Interpersonal Skills</li>
 <li>Well Organized</li>
@@ -162,25 +162,160 @@
 </div>
 </div>
 
-<div id="outline-container-orgcc0b0f5" class="outline-2">
-<h2 id="orgcc0b0f5">Projects</h2>
-<div class="outline-text-2" id="text-orgcc0b0f5">
+<div id="outline-container-org898abf7" class="outline-2">
+<h2 id="org898abf7">Projects</h2>
+<div class="outline-text-2" id="text-org898abf7">
 <ul class="org-ul">
 <li>Python
 <ul class="org-ul">
-<li><a href="https://github.com/shadowrylander/bakery">Bakery</a></li>
+<li><p>
+<a href="https://github.com/syvlorg/bakery">Bakery</a>
+</p>
+
+<p>
+Inspired by <a href="https://github.com/amoffat">Andrew Moffat's</a> <a href="https://amoffat.github.io/sh/">sh</a> module; I was so enamoured by the idea of <code>baking</code> an object
+that I created a module based entirely around that concept. Soon, however, it grew into one of my best projects yet. Here's just a small taste of what the
+<code>bakery</code> can do:
+</p>
+
+<div class="org-src-container">
+<pre><code class="language-py match-braces rainbow-braces">from bakery import git, ls, tail
+cookies = "/tmp/bakery/cookies"
+git.bake_all_(_dazzle = True)
+git.clone("https://github.com/syvlorg/cookies", cookies, _ignore_stderr = True)
+git(C = cookies).log()
+tails = ls([], l = True, a = True, cookies) | tail
+tails()
+</code></pre>
+</div>
+
+<p>
+This will, in order:
+</p>
+<ol class="org-ol">
+<li>Import <code>git</code>, <code>ls</code>, and <code>tail</code> from the command line</li>
+<li>Set a temporary path to clone a test repository to</li>
+<li>Set all imported utilities to print their output to the console</li>
+<li>Clone the test repository to the temporary path</li>
+<li>Display the commit log for the test repository</li>
+<li>Set the output of <code>ls</code> to be piped to the input of <code>tail</code></li>
+<li>Display the last 10 items in the test repository</li>
+</ol></li>
+
+<li><p>
+<a href="https://github.com/syvlorg/oreo">Oreo</a>
+</p>
+
+<p>
+This is a module with a whole host of potentially useful functions, many of which enable the core aspects of my <code>bakery</code> project above;
+here are a few of my favorites:
+</p>
+
+<ul class="org-ul">
+<li><p>
+<code>eclair:</code> Create a progress bar around any iterable,
+powered by <a href="https://github.com/Textualize/rich">rich</a> (or at least my fork, <a href="https://github.com/syvlorg/richy">richy</a>):
+</p>
+
+<div class="org-src-container">
+<pre><code class="language-py match-braces rainbow-braces">from oreo import eclair
+for i in eclair(range(100), "Index goes from 0 - 99!", "purple"): pass
+</code></pre>
+</div></li>
+
+<li><p>
+<code>recursive-unmangle:</code> For users of <a href="https://docs.hylang.org/en/alpha/">hy</a>,
+a lisp dialect of python, developers can use this to recursively unmangle <code>hy</code> names;
+especially useful when printing <a href="https://github.com/mewwts/addict">addict</a> dictionaries:
+</p>
+
+<div class="org-src-container">
+<pre><code class="language-hy match-braces rainbow-braces">(import addict [Dict])
+(import oreo [recursive-unmangle])
+
+(setv test (Dict {})
+      test.t/a 1
+      test.t/b.t/c 3)
+
+(print "Without `recursive-unmangle':")
+(print test)
+;; =&gt; {'hyx_tXsolidusXa': 1, 'hyx_tXsolidusXb': {'hyx_tXsolidusXc': 3}}
+
+(print "With `recursive-unmangle':")
+(print (recursive-unmangle test))
+;; =&gt; {'t/a': 1, 't/b': {'t/c': 3}}
+</code></pre>
+</div>
+
+<p>
+<code>Note:</code> I have implemented this in my fork of <a href="https://github.com/Textualize/rich">rich</a>,
+<a href="https://github.com/syvlorg/richy">richy</a>,
+where it's <a href="https://rich.readthedocs.io/en/stable/reference/init.html#rich.inspect">inspect</a> submodule will use this when <a href="https://docs.hylang.org/en/alpha/">hy</a> is installed,
+and inspect's Hy keyword is passed a truthy value.
+</p></li>
+
+<li><p>
+<code>is_either / either?:</code> Check if any of the types of the values passed to this function are the same, or subclassed,
+such as an <a href="https://docs.python.org/3/library/collections.html#collections.OrderedDict">OrderedDict</a>,
+an <a href="https://github.com/mewwts/addict">addict</a>, and a <code>dict</code>:
+</p>
+
+<div class="org-src-container">
+<pre><code class="language-py match-braces rainbow-braces">from addict import Dict
+from collections import OrderedDict
+from oreo import is_either
+
+print(is_either({}, dict))
+# =&gt; True
+
+print(is_either({}, Dict))
+# =&gt; True
+
+print(is_either({}, OrderedDict))
+# =&gt; True
+
+print(is_either(OrderedDict, Dict))
+# =&gt; True
+
+print(is_either(OrderedDict, dict))
+# =&gt; True
+
+print(is_either(Dict, dict))
+# =&gt; True
+
+print(is_either(str, dict))
+# =&gt; False
+
+print(is_either("Dict", Dict))
+# =&gt; False
+
+print(is_either("Dict", "dict"))
+# =&gt; True
+</code></pre>
+</div></li>
+
+<li><p>
+<code>tea:</code> A subclass of <a href="https://docs.python.org/3/library/collections.html#collections.OrderedDict">OrderedDict</a>, with a few extra features:
+</p>
+
+<div class="org-src-container">
+<pre><code class="language-py match-braces rainbow-braces">from oreo import tea
+
+</code></pre>
+</div></li>
+</ul></li>
 </ul></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org6bf30a5" class="outline-2">
-<h2 id="org6bf30a5">References</h2>
-<div class="outline-text-2" id="text-org6bf30a5">
+<div id="outline-container-org02ba645" class="outline-2">
+<h2 id="org02ba645">References</h2>
+<div class="outline-text-2" id="text-org02ba645">
 </div>
-<div id="outline-container-orge457379" class="outline-3">
-<h3 id="orge457379">Neena Gupta</h3>
-<div class="outline-text-3" id="text-orge457379">
+<div id="outline-container-org7fda12b" class="outline-3">
+<h3 id="org7fda12b">Neena Gupta</h3>
+<div class="outline-text-3" id="text-org7fda12b">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -212,7 +347,7 @@
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Jeet Ray</p>
-<p class="date">Created: 2022-02-18 Fri 19:49</p>
+<p class="date">Created: 2022-02-22 Tue 23:19</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

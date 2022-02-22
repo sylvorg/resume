@@ -44,7 +44,113 @@
 * Projects
 
 - Python
-    - [[https://github.com/shadowrylander/bakery][Bakery]]
+    - [[https://github.com/syvlorg/bakery][Bakery]]
+
+        Inspired by [[https://github.com/amoffat][Andrew Moffat's]] [[https://amoffat.github.io/sh/][sh]] module; I was so enamoured by the idea of ~baking~ an object
+        that I created a module based entirely around that concept. Soon, however, it grew into one of my best projects yet. Here's just a small taste of what the
+        ~bakery~ can do:
+
+        #+begin_src py
+        from bakery import git, ls, tail
+        cookies = "/tmp/bakery/cookies"
+        git.bake_all_(_dazzle = True)
+        git.clone("https://github.com/syvlorg/cookies", cookies, _ignore_stderr = True)
+        git(C = cookies).log()
+        tails = ls([], l = True, a = True, cookies) | tail
+        tails()
+        #+end_src
+
+        This will, in order:
+        1. Import ~git~, ~ls~, and ~tail~ from the command line
+        2. Set a temporary path to clone a test repository to
+        3. Set all imported utilities to print their output to the console
+        4. Clone the test repository to the temporary path
+        5. Display the commit log for the test repository
+        6. Set the output of ~ls~ to be piped to the input of ~tail~
+        7. Display the last 10 items in the test repository
+
+    - [[https://github.com/syvlorg/oreo][Oreo]]
+
+        This is a module with a whole host of potentially useful functions, many of which enable the core aspects of my ~bakery~ project above;
+        here are a few of my favorites:
+
+        - ~eclair:~ Create a progress bar around any iterable,
+          powered by [[https://github.com/Textualize/rich][rich]] (or at least my fork, [[https://github.com/syvlorg/richy][richy]]):
+
+            #+begin_src py
+            from oreo import eclair
+            for i in eclair(range(100), "Index goes from 0 - 99!", "purple"): pass
+            #+end_src
+
+        - ~recursive-unmangle:~ For users of [[https://docs.hylang.org/en/alpha/][hy]],
+          a lisp dialect of python, developers can use this to recursively unmangle ~hy~ names;
+          especially useful when printing [[https://github.com/mewwts/addict][addict]] dictionaries:
+
+            #+begin_src hy
+            (import addict [Dict])
+            (import oreo [recursive-unmangle])
+
+            (setv test (Dict {})
+                  test.t/a 1
+                  test.t/b.t/c 3)
+
+            (print "Without `recursive-unmangle':")
+            (print test)
+            ;; => {'hyx_tXsolidusXa': 1, 'hyx_tXsolidusXb': {'hyx_tXsolidusXc': 3}}
+
+            (print "With `recursive-unmangle':")
+            (print (recursive-unmangle test))
+            ;; => {'t/a': 1, 't/b': {'t/c': 3}}
+            #+end_src
+
+            ~Note:~ I have implemented this in my fork of [[https://github.com/Textualize/rich][rich]],
+            [[https://github.com/syvlorg/richy][richy]],
+            where it's [[https://rich.readthedocs.io/en/stable/reference/init.html#rich.inspect][inspect]] submodule will use this when [[https://docs.hylang.org/en/alpha/][hy]] is installed,
+            and inspect's Hy keyword is passed a truthy value.
+
+        - ~is_either / either?:~ Check if any of the types of the values passed to this function are the same, or subclassed,
+          such as an [[https://docs.python.org/3/library/collections.html#collections.OrderedDict][OrderedDict]],
+          an [[https://github.com/mewwts/addict][addict]], and a ~dict~:
+
+            #+begin_src py
+            from addict import Dict
+            from collections import OrderedDict
+            from oreo import is_either
+
+            print(is_either({}, dict))
+            # => True
+
+            print(is_either({}, Dict))
+            # => True
+
+            print(is_either({}, OrderedDict))
+            # => True
+
+            print(is_either(OrderedDict, Dict))
+            # => True
+
+            print(is_either(OrderedDict, dict))
+            # => True
+
+            print(is_either(Dict, dict))
+            # => True
+
+            print(is_either(str, dict))
+            # => False
+
+            print(is_either("Dict", Dict))
+            # => False
+
+            print(is_either("Dict", "dict"))
+            # => True
+            #+end_src
+
+        - ~tea:~ A subclass of [[https://docs.python.org/3/library/collections.html#collections.OrderedDict][OrderedDict]], with a few extra features:
+
+            #+begin_src py
+            from oreo import tea
+            
+            #+end_src
 
 * References
 ** Neena Gupta
