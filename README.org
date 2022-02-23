@@ -75,7 +75,7 @@
         here are a few of my favorites:
 
         - ~eclair:~ Create a progress bar around any iterable,
-          powered by [[https://github.com/Textualize/rich][rich]] (or at least my fork, [[https://github.com/syvlorg/richy][richy]]):
+          powered by [[https://github.com/Textualize/rich][rich]] (or at least my fork, [[https://github.com/syvlorg/richyrich][richyrich]]):
 
             #+begin_src py
             from oreo import eclair
@@ -104,7 +104,7 @@
             #+end_src
 
             ~Note:~ I have implemented this in my fork of [[https://github.com/Textualize/rich][rich]],
-            [[https://github.com/syvlorg/richy][richy]],
+            [[https://github.com/syvlorg/richyrich][richyrich]],
             where it's [[https://rich.readthedocs.io/en/stable/reference/init.html#rich.inspect][inspect]] submodule will use this when [[https://docs.hylang.org/en/alpha/][hy]] is installed,
             and inspect's Hy keyword is passed a truthy value.
 
