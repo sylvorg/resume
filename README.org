@@ -149,7 +149,13 @@
 
             #+begin_src py
             from oreo import tea
-            
+            gensing = tea("Hello,", name = "User")
+            gensing.glue("!")
+            gensing.append("How")
+            gensing.extend("are", "you")
+            gensing.glue(("?", "I", "feel", "great!"))
+            print(gensing())
+            # => Hello, User! How are you? I feel great!
             #+end_src
 
 * References
