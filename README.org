@@ -1,4 +1,3 @@
-#+setupfile: ./settings/README.org
 #+title: Résumé
 
 * General Information
